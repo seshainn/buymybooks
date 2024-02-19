@@ -1,4 +1,3 @@
-import React from 'react'
 import { Route, Routes } from 'react-router-dom'
 import Horror from './components/Horror'
 import Classics from './components/Classics'
@@ -9,6 +8,8 @@ import Nonfiction from './components/Nonfiction'
 import Thriller from './components/Thriller'
 import Homepage from './components/Homepage'
 import Navbar from './components/Navbar'
+import Login from './components/Login'
+import Signup from './components/Signup'
 
 function App() {
   return (
@@ -24,6 +25,8 @@ function App() {
           <Route path='thriller' element={<Thriller />} />
           <Route path='nonfiction' element={<Nonfiction />} />
         </Route>
+        <Route path='/login' element={<Login />} />
+        <Route path='/signup' element={<Signup />} />
       </Routes>
     </div>
   )

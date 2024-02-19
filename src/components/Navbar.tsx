@@ -1,7 +1,24 @@
-import React from 'react'
-import { Link, Outlet } from 'react-router-dom'
+import { auth } from '../utils/firebase'
+import { useEffect, useState } from 'react'
+import { Link, Outlet, useNavigate } from 'react-router-dom'
 
 const Navbar = () => {
+  const [name, setName] = useState<string | null>(null)
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    const user = auth.currentUser
+    if (user?.email) {
+      const userEmail = user.email
+      setName(userEmail.slice(0, userEmail.indexOf('@')))
+    }
+  }, [])
+
+  const handleLogout = async () => {
+    await auth.signOut()
+    setName(null)
+    navigate('/')
+  }
   return (
     <div className='min-h-screen w-full bg-slate-300'>
       <div className='flex justify-between items-center h-20 bg-slate-400 py-4 px-20'>
@@ -49,12 +66,20 @@ const Navbar = () => {
             className='border rounded-full px-8 py-2 pl-12 bg-slate-300 focus:outline-none'
           />
         </div>
-        <button
-          type='button'
-          className='px-8 py-1 font-semibold trackin-widest text-lg rounded-xl border-2 border-slate-700 bg-slate-700'
-        >
-          Login
-        </button>
+        {name ? (
+          <button onClick={handleLogout}>
+            <h1 className='text-black underline hover:text-slate-200 hover:cursor-pointer'>
+              Signout {name}
+            </h1>
+          </button>
+        ) : (
+          <button
+            type='button'
+            className='px-8 py-1 font-semibold trackin-widest text-lg text-slate-300 rounded-xl border-2 border-slate-700 bg-slate-700'
+          >
+            <Link to='/login'>Login</Link>
+          </button>
+        )}
       </div>
       <Outlet />
       <br />
