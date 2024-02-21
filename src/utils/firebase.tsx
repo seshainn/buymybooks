@@ -7,7 +7,14 @@ import {
   User,
   createUserWithEmailAndPassword,
 } from 'firebase/auth'
-import { getFirestore, doc, getDoc, setDoc } from 'firebase/firestore'
+import {
+  getFirestore,
+  doc,
+  getDoc,
+  setDoc,
+  collection,
+  writeBatch,
+} from 'firebase/firestore'
 import { FirebaseError } from 'firebase/app'
 
 const firebaseConfig = {
@@ -80,5 +87,41 @@ export const userDocUpdtFunc = async (userAuth: User | null, name = {}) => {
         ...name,
       })
     }
+  }
+}
+export type collectionObject = {
+  title: string
+  items: {
+    id: number
+    name: string
+    imageUrl: string
+    price: number
+  }[]
+}
+export const addCollectionToFireStore = async (
+  collectionKey: string,
+  objectsToAdd: collectionObject[]
+) => {
+  const collectionRef = collection(db, collectionKey)
+  const batch = writeBatch(db)
+  objectsToAdd.forEach((object: collectionObject) => {
+    const docRef = doc(collectionRef, object.title.toLowerCase())
+    batch.set(docRef, object)
+  })
+  await batch.commit()
+  console.log('batch update completed')
+}
+
+export const getDocumentItems = async (
+  collectionName: string,
+  documentName: string
+) => {
+  const docRef = doc(db, collectionName, documentName)
+  const booksDoc = await getDoc(docRef)
+
+  if (booksDoc.exists()) {
+    return { status: 201, items: booksDoc.data().items }
+  } else {
+    return { status: 404, items: [] }
   }
 }

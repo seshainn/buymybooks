@@ -10,8 +10,19 @@ import Homepage from './components/Homepage'
 import Navbar from './components/Navbar'
 import Login from './components/Login'
 import Signup from './components/Signup'
+//import { BOOK_DATA } from './utils/book-data'
+//import { addCollectionToFireStore } from './utils/firebase'
+//import { useEffect } from 'react'
 
 function App() {
+  /* THis is for batch update of book collection to Firestore
+  useEffect(() => {
+    const loadCollections = async () => {
+      await addCollectionToFireStore('collections', BOOK_DATA)
+    }
+    loadCollections()
+  }, [])
+  */
   return (
     <div>
       <Routes>
