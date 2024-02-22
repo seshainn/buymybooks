@@ -1,8 +1,17 @@
 import { auth } from '../utils/firebase'
 import { useEffect, useState } from 'react'
 import { Link, Outlet, useNavigate } from 'react-router-dom'
+import { useSelector } from 'react-redux'
+import { bookType } from '../utils/types'
+
+type stateType = {
+  books: bookType[]
+}
 
 const Navbar = () => {
+  const booksCart = useSelector((state: stateType) => state.books)
+  const totalQuantity = booksCart.reduce((sum, book) => sum + book.qty, 0)
+  console.log(booksCart)
   const [name, setName] = useState<string | null>(null)
   const navigate = useNavigate()
 
@@ -101,7 +110,7 @@ const Navbar = () => {
             <path d='M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43' />
           </svg>
           <span className='absolute top-0 right-0 text-red-500 font-semibold px-3 rounded-full text-sm'>
-            {0}
+            {totalQuantity}
           </span>
         </div>
       </div>

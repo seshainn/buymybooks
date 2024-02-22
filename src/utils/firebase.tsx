@@ -16,6 +16,7 @@ import {
   writeBatch,
 } from 'firebase/firestore'
 import { FirebaseError } from 'firebase/app'
+import { collectionObject } from './types'
 
 const firebaseConfig = {
   apiKey: 'AIzaSyDhJdziC30lVjUTFWWCJJA39UQsg9ci6a4',
@@ -89,15 +90,7 @@ export const userDocUpdtFunc = async (userAuth: User | null, name = {}) => {
     }
   }
 }
-export type collectionObject = {
-  title: string
-  items: {
-    id: number
-    name: string
-    imageUrl: string
-    price: number
-  }[]
-}
+
 export const addCollectionToFireStore = async (
   collectionKey: string,
   objectsToAdd: collectionObject[]
