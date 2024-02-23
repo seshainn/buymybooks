@@ -23,7 +23,10 @@ const booksSlice = createSlice({
     },
     removeBook(state, action: PayloadAction<bookType>) {
       const ind = state.findIndex((item) => item.name === action.payload.name)
-      state.splice(ind, 1)
+      state[ind].qty -= 1
+      if (state[ind].qty === 0) {
+        state.splice(ind, 1)
+      }
     },
   },
   extraReducers(builder) {

@@ -53,7 +53,8 @@ const Login = () => {
       const response = await getRedirectResult(auth)
       if (response) {
         await userDocUpdtFunc(response.user)
-        navigate('/')
+        const previousPage = window.history.state?.key || '/'
+        navigate(previousPage)
       }
     }
     googleRedirect()

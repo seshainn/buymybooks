@@ -11,7 +11,6 @@ type stateType = {
 const Navbar = () => {
   const booksCart = useSelector((state: stateType) => state.books)
   const totalQuantity = booksCart.reduce((sum, book) => sum + book.qty, 0)
-  console.log(booksCart)
   const [name, setName] = useState<string | null>(null)
   const navigate = useNavigate()
 
@@ -92,27 +91,29 @@ const Navbar = () => {
             <Link to='/login'>Login</Link>
           </button>
         )}
-        <div className='relative cursor-pointer'>
-          <svg
-            xmlns='http://www.w3.org/2000/svg'
-            width='36'
-            height='36'
-            viewBox='0 0 24 24'
-            fill='none'
-            stroke='currentColor'
-            strokeWidth='2'
-            strokeLinecap='round'
-            strokeLinejoin='round'
-            className='lucide lucide-shopping-cart'
-          >
-            <circle cx='8' cy='21' r='1' />
-            <circle cx='19' cy='21' r='1' />
-            <path d='M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43' />
-          </svg>
-          <span className='absolute top-0 right-0 text-red-500 font-semibold px-3 rounded-full text-sm'>
-            {totalQuantity}
-          </span>
-        </div>
+        <Link to='/cart'>
+          <div className='relative cursor-pointer'>
+            <svg
+              xmlns='http://www.w3.org/2000/svg'
+              width='36'
+              height='36'
+              viewBox='0 0 24 24'
+              fill='none'
+              stroke='currentColor'
+              strokeWidth='2'
+              strokeLinecap='round'
+              strokeLinejoin='round'
+              className='lucide lucide-shopping-cart'
+            >
+              <circle cx='8' cy='21' r='1' />
+              <circle cx='19' cy='21' r='1' />
+              <path d='M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43' />
+            </svg>
+            <span className='absolute top-0 right-0 text-red-500 font-semibold px-3 rounded-full text-sm'>
+              {totalQuantity}
+            </span>
+          </div>
+        </Link>
       </div>
       <Outlet />
       <br />
