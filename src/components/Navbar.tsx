@@ -1,15 +1,11 @@
 import { auth } from '../utils/firebase'
 import { useEffect, useState } from 'react'
 import { Link, Outlet, useNavigate } from 'react-router-dom'
-import { useSelector } from 'react-redux'
-import { bookType } from '../utils/types'
-
-type stateType = {
-  books: bookType[]
-}
+import { useAppSelector } from '../store/hooks'
+import type { RootState } from '../store'
 
 const Navbar = () => {
-  const booksCart = useSelector((state: stateType) => state.books)
+  const booksCart = useAppSelector((state: RootState) => state.books)
   const totalQuantity = booksCart.reduce((sum, book) => sum + book.qty, 0)
   const [name, setName] = useState<string | null>(null)
   const navigate = useNavigate()
@@ -52,7 +48,7 @@ const Navbar = () => {
           </Link>
         </div>
 
-        <div className='w-1/3 relative flex items-center'>
+        {/*<div className='w-1/3 relative flex items-center'>
           <svg
             xmlns='http://www.w3.org/2000/svg'
             width='24'
@@ -73,7 +69,7 @@ const Navbar = () => {
             placeholder='Search ...'
             className='border rounded-full px-8 py-2 pl-12 bg-slate-300 focus:outline-none'
           />
-        </div>
+  </div>*/}
         {name ? (
           <button onClick={handleLogout} className='group cursor-pointer'>
             <h1 className='text-black hover:text-slate-200 relative'>

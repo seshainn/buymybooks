@@ -7,11 +7,16 @@ import {
 
 import { bookType } from '../utils/types'
 
+const getInitialBooksState = (): bookType[] => {
+  const storedState = localStorage.getItem('booksCart')
+  return storedState ? JSON.parse(storedState) : []
+}
+
 export const reset = createAction('app/books')
 
 const booksSlice = createSlice({
   name: 'books',
-  initialState: [] as bookType[],
+  initialState: getInitialBooksState(),
   reducers: {
     addBook(state, action: PayloadAction<bookType>) {
       const ind = state.findIndex((item) => item.name === action.payload.name)
@@ -20,6 +25,7 @@ const booksSlice = createSlice({
       } else {
         state.push(action.payload)
       }
+      localStorage.setItem('booksCart', JSON.stringify(state))
     },
     removeBook(state, action: PayloadAction<bookType>) {
       const ind = state.findIndex((item) => item.name === action.payload.name)
@@ -27,6 +33,7 @@ const booksSlice = createSlice({
       if (state[ind].qty === 0) {
         state.splice(ind, 1)
       }
+      localStorage.setItem('booksCart', JSON.stringify(state))
     },
   },
   extraReducers(builder) {
@@ -37,9 +44,9 @@ const booksSlice = createSlice({
 })
 
 export const store = configureStore({
-  reducer: {
-    books: booksSlice.reducer,
-  },
+  reducer: { books: booksSlice.reducer },
 })
 
 export const { addBook, removeBook } = booksSlice.actions
+export type RootState = ReturnType<typeof store.getState>
+export type AppDispatch = typeof store.dispatch
